@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# git reset --hard in-case make clean was run and deleted toolchain files..
+cd x86_64-linux-4.9 && git reset --hard && cd ../;
+
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01';
+
+# Try to parallelize the build for faster performance.
+JOBS="$(cat /proc/cpuinfo | grep -c processor)";
+
+# Determine Make flags
+MAKE_FLAGS=-j"$JOBS"
+
+# Kernel configuration
+make ARCH=x86 ubuntu_defconfig
+
+# start the build
+time make ARCH=x86 $MAKE_FLAGS bzImage && time make $MAKE_FLAGS ARCH=x86 modules;
+
+echo "Time to install the kernel binary and modules which must run as root.";
+echo "Enter Admin password to continue";
+sleep 15;
+sudo make headers_install && sudo make modules_install && sudo make install;
+echo "reboot to new kernel";
+sudo reboot;
