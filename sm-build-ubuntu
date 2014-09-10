@@ -9,10 +9,6 @@ JOBS="$(cat /proc/cpuinfo | grep -c processor)";
 # Determine Make flags
 MAKE_FLAGS=-j"$JOBS"
 
-# Toolchain Path
-export TCP=~/tmp/x86_64-linux-4.8
-if [ -e $TCP/bin/x86_64-linux-gcc ]; then
-
 # Kernel configuration
 make ARCH=x86 ubuntu_defconfig
 
@@ -25,16 +21,3 @@ sleep 15;
 sudo make $MAKE_FLAGS install && sudo make $MAKE_FLAGS modules_install;
 echo "reboot to new kernel";
 sudo reboot;
-
-else
-
-echo "you need to have sabermod linux toolchain because this kernel will compile with graphite";
-echo "but requires a gcc with graphite enabled";
-echo "fetching required gcc...";
-
-mkdir -p ~/tmp/x86_64-linux-4.8 && cd ~/tmp/x86_64-linux-4.8;
-git init && git remote add sm https://github.com/SaberMod/Linux-stable.git;
-git fetch sm sm-linux-3.16.y && git checkout FETCH_HEAD;
-
-echo "you'll need to run this script again";
-fi;
