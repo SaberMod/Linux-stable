@@ -18,6 +18,6 @@ time make ARCH=x86 $MAKE_FLAGS bzImage && time make ARCH=x86 modules;
 echo "Time to install the kernel binary and modules which must run as root.";
 echo "Enter Admin password to continue";
 sleep 15;
-sudo make $MAKE_FLAGS install && sudo make $MAKE_FLAGS modules_install;
+sudo make install && sudo make modules_install;
 echo "reboot to new kernel";
 sudo reboot;
