@@ -380,7 +380,7 @@ GRAPHITE_FLAGS	= -fgraphite -floop-flatten -floop-parallelize-all -ftree-loop-li
 CFLAGS_MODULE   = $(GRAPHITE_FLAGS)
 AFLAGS_MODULE   = $(GRAPHITE_FLAGS)
 LDFLAGS_MODULE  = -T $(srctree)/scripts/module-common.lds
-CFLAGS_KERNEL	= $(GRAPHITE_FLAGS)
+CFLAGS_KERNEL	= $(GRAPHITE_FLAGS) -lto
 AFLAGS_KERNEL	=
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
 
