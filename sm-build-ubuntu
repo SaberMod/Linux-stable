@@ -3,6 +3,8 @@
 # git reset --hard in-case make clean was run and deleted toolchain files..
 git reset --hard;
 
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01';
+
 # Try to parallelize the build for faster performance.
 JOBS="$(cat /proc/cpuinfo | grep -c processor)";
 
