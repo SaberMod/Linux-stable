@@ -382,7 +382,7 @@ CFLAGS_MODULE   = $(GRAPHITE_FLAGS) -lto
 AFLAGS_MODULE   = $(GRAPHITE_FLAGS) -lto
 LDFLAGS_MODULE  = -T $(srctree)/scripts/module-common.lds
 CFLAGS_KERNEL	= $(GRAPHITE_FLAGS) -lto -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr -fsingle-precision-constant -funswitch-loops
-AFLAGS_KERNEL	=fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr -fsingle-precision-constant -funswitch-loops
+AFLAGS_KERNEL	= -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr -fsingle-precision-constant -funswitch-loops
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
 
 XX_GRAPHITE	= -ftree-loop-distribution \
