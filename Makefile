@@ -377,7 +377,7 @@ CHECK		= sparse
 
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
-GRAPHITE_FLAGS	= -fgraphite -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block-ftree-loop-distribution -ftree-loop-im -fivopts -funswitch-loops -funroll-loops -ftree-loop-ivcanon
+GRAPHITE_FLAGS	= -fgraphite -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -ftree-loop-distribution -ftree-loop-im -fivopts -funswitch-loops -funroll-loops -ftree-loop-ivcanon
 CFLAGS_MODULE   = $(GRAPHITE_FLAGS) -lto
 AFLAGS_MODULE   = $(GRAPHITE_FLAGS) -lto
 LDFLAGS_MODULE  = -T $(srctree)/scripts/module-common.lds
@@ -410,7 +410,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -Wno-format-security\
 		   -funswitch-loops\
 		   -pipe\
-		   -$(GRAPHITE_FLAGS)
+		   $(GRAPHITE_FLAGS)
 KBUILD_AFLAGS_KERNEL := -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr -fsingle-precision-constant -ftree-vectorize
 KBUILD_CFLAGS_KERNEL := -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr -fsingle-precision-constant -ftree-vectorize
 KBUILD_AFLAGS   := -D__ASSEMBLY__
