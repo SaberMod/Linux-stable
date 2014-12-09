@@ -3354,9 +3354,10 @@ intel_dp_get_dpcd(struct intel_dp *intel_dp)
 		}
 	}
 
-	/* Training Pattern 3 support */
+	/* Training Pattern 3 support, both source and sink */
 	if (intel_dp->dpcd[DP_DPCD_REV] >= 0x12 &&
-	    intel_dp->dpcd[DP_MAX_LANE_COUNT] & DP_TPS3_SUPPORTED) {
+	    intel_dp->dpcd[DP_MAX_LANE_COUNT] & DP_TPS3_SUPPORTED &&
+	    (IS_HASWELL(dev) || INTEL_INFO(dev)->gen >= 8)) {
 		intel_dp->use_tps3 = true;
 		DRM_DEBUG_KMS("Displayport TPS3 supported");
 	} else
@@ -4082,6 +4083,18 @@ intel_dp_hpd_pulse(struct intel_digital_port *intel_dig_port, bool long_hpd)
 
 	if (intel_dig_port->base.type != INTEL_OUTPUT_EDP)
 		intel_dig_port->base.type = INTEL_OUTPUT_DISPLAYPORT;
+
+	if (long_hpd && intel_dig_port->base.type == INTEL_OUTPUT_EDP) {
+		/*
+		 * vdd off can generate a long pulse on eDP which
+		 * would require vdd on to handle it, and thus we
+		 * would end up in an endless cycle of
+		 * "vdd off -> long hpd -> vdd on -> detect -> vdd off -> ..."
+		 */
+		DRM_DEBUG_KMS("ignoring long hpd on eDP port %c\n",
+			      port_name(intel_dig_port->port));
+		return false;
+	}
 
 	DRM_DEBUG_KMS("got hpd irq on port %d - %s\n", intel_dig_port->port,
 		      long_hpd ? "long" : "short");
